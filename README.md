@@ -968,8 +968,6 @@ router.delete("/", authenticateToken, checkRoleAdmin, async (req, res) => {
 });
 ```
 
-✅ **ตรวจผล:** ค้นหา `TODO ขั้นที่` ทั้งโปรเจคต้องไม่เหลือ และ `cd frontend && pnpm build` ผ่าน
-
 ---
 
 ### รหัสสถานะที่เจอบ่อย
@@ -1001,28 +999,3 @@ router.delete("/", authenticateToken, checkRoleAdmin, async (req, res) => {
 | จัดการการลงทะเบียน | `GET /api/v3/enrollments`         | ADMIN (ทั้งหมด) / STUDENT (ของตัวเอง) |
 | จัดการการลงทะเบียน | `POST /api/v3/enrollments`        | ADMIN / STUDENT (ของตัวเอง)           |
 
-## ไฟล์สำคัญ
-
-```
-backend/
-  .env                               PORT, JWT_SECRET, DATABASE_URL, CORS_ORIGIN
-  src/index.ts                       cors + ผูก router                        ← ขั้นที่ 2, 8
-  src/middlewares/authenMiddleware.ts        ตรวจ JWT → req.user
-  src/middlewares/checkRoleAdminDBMiddleware.ts  ADMIN เท่านั้น
-  src/middlewares/checkRolesDBMiddleware.ts      ADMIN หรือ STUDENT
-  src/routes/usersRouters_v3.ts      login / logout                           ← ขั้นที่ 3
-  src/routes/coursesRouters_v3.ts    GET / POST / PUT / DELETE วิชา
-  src/routes/enrollmentsRouters_v3.ts GET / POST การลงทะเบียน
-frontend/
-  .env                               VITE_API_URL                             ← ขั้นที่ 0
-  src/lib/api.ts                     axios instance + api()                   ← ขั้นที่ 5
-  src/lib/auth-store.ts              token (persist) + role/studentId         ← ขั้นที่ 6
-  src/pages/login.tsx                หน้า Login                               ← ขั้นที่ 7
-  src/components/app-sidebar.tsx     เมนูตาม role + ปุ่ม Logout               ← ขั้นที่ 7
-  src/layouts/root-layout.tsx        ตรวจ Login + getAll()                    ← ขั้นที่ 9
-  src/layouts/require-role.tsx       กันหน้าตาม role                          ← ขั้นที่ 9
-  src/lib/enrollment-store.ts        global state + action ที่ยิง API          ← ขั้นที่ 10–12
-  src/pages/student/enrollments.tsx  STUDENT: GET + POST                      ← ขั้นที่ 11
-  src/pages/admin/courses.tsx        ADMIN: GET + POST + PUT + DELETE
-  src/components/courses/            ฟอร์ม + ตารางวิชา                        ← ขั้นที่ 12
-```
